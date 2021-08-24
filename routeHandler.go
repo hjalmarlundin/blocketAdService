@@ -23,8 +23,8 @@ func handleGetRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	json.NewEncoder(w).Encode(ads)
 }
 
-func searchAndQuery(query string, db *gorm.DB) []Ad {
-	var ads []Ad
+func searchAndQuery(query string, db *gorm.DB) []BlocketAd {
+	var ads []BlocketAd
 
 	switch query {
 	case "price.desc":
@@ -52,21 +52,21 @@ func handleDeleteRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	id := vars["id"]
 	fmt.Printf("Received DELETE for ID: %v \n", id)
 
-	var ad Ad
+	var ad BlocketAd
 	result := db.Where("Id = ?", id).Find(&ad)
 
 	if result.Error == nil && result.RowsAffected != 0 {
 		db.Delete(&ad)
-		fmt.Fprintf(w, "Successfully Deleted User: %v", id)
+		fmt.Fprintf(w, "Successfully Ad with ID: %v", id)
 	} else {
-		fmt.Printf("Could not find user with id: %v", id)
+		fmt.Printf("Could not find ad with id: %v", id)
 		http.NotFound(w, r)
 	}
 }
 
 func handlePostRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	reqBody, _ := ioutil.ReadAll(r.Body)
-	var ad Ad
+	var ad BlocketAd
 	err := json.Unmarshal(reqBody, &ad)
 
 	if err != nil {
@@ -76,7 +76,7 @@ func handlePostRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 
 	fmt.Printf("Received POST: \n Subject: %v. Body: %v, Email: %v, Price: %v", ad.Subject, ad.Body, ad.Email, ad.Price)
 
-	createdResource := &Ad{Subject: ad.Subject, Body: ad.Body, Email: ad.Email, Price: ad.Price, Created: time.Now(), ID: uuid.NewString()}
+	createdResource := &BlocketAd{Subject: ad.Subject, Body: ad.Body, Email: ad.Email, Price: ad.Price, Created: time.Now(), ID: uuid.NewString()}
 	db.Create(createdResource)
 	json.NewEncoder(w).Encode(createdResource)
 }

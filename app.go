@@ -32,15 +32,10 @@ func createOrOpenDataBase(name string) *gorm.DB {
 }
 
 func initializeRequestHandlers(app *App) {
-	// creates a new instance of a mux router
 	app.Router = mux.NewRouter().StrictSlash(true)
-	// replace http.HandleFunc with myRouter.HandleFunc
 	app.Router.HandleFunc("/ads", makeHandler(handleGetRequest, app.DB)).Methods("GET")
 	app.Router.HandleFunc("/ad", makeHandler(handlePostRequest, app.DB)).Methods("POST")
 	app.Router.HandleFunc("/ad/{id}", makeHandler(handleDeleteRequest, app.DB)).Methods("DELETE")
-	// finally, instead of passing in nil, we want
-	// to pass in our newly created router as the second
-	// argument
 }
 
 func (a *App) run(addr string) {

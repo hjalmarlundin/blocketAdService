@@ -1,7 +1,6 @@
-"# blocketAdService" 
+# blocketAdService 
 
-
-Simple web service for adding and retreiving ads. Based on sqllite and gorilla mux 
+Simple web service for adding and retreiving ads. Based on sqllite and gorilla mux.
 
 ## GET Examples
             curl --location --request GET 'http://localhost:10000/ads?sort_by=date.asc'
@@ -24,4 +23,4 @@ Simple web service for adding and retreiving ads. Based on sqllite and gorilla m
 
 ## DELETE Examples
 
-curl --location --request DELETE 'http://localhost:10000/ad/4'
+            curl --location --request DELETE 'http://localhost:10000/ad/4'
