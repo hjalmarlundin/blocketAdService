@@ -17,7 +17,7 @@ type App struct {
 func (a *App) initialize(dbname string) {
 	a.DB = createOrOpenDataBase(dbname)
 	// Migrate the schema
-	a.DB.AutoMigrate(&BlocketAd{})
+	a.DB.AutoMigrate(&blocketAd{})
 
 	initializeRequestHandlers(a)
 

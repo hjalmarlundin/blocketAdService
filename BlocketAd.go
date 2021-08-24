@@ -2,7 +2,7 @@ package main
 
 import "time"
 
-type BlocketAd struct {
+type blocketAd struct {
 	ID      string    `gorm:"primarykey" json:"Id,omitempty"`
 	Created time.Time `json:"CreatedAt,omitempty"`
 	Subject string    `json:"Subject"`

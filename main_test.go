@@ -67,7 +67,7 @@ func Test_POST_AddsToDb(t *testing.T) {
 	if len(ads) != 0 {
 		t.Errorf("Expected database to be empty. Received %v", len(ads))
 	}
-	newAd := &BlocketAd{ID: "1", Subject: "Add1", Body: "This is what Iam selling", Email: "myEmal@hotmail.com", Created: time.Now()}
+	newAd := &blocketAd{ID: "1", Subject: "Add1", Body: "This is what Iam selling", Email: "myEmal@hotmail.com", Created: time.Now()}
 	asJSON, _ := json.Marshal(newAd)
 
 	// Act
@@ -249,36 +249,36 @@ func Test_GET_SortByCreatedDesc(t *testing.T) {
 
 // Helper functions
 
-func AssertTime(add1 BlocketAd, t time.Time, test *testing.T) {
+func AssertTime(add1 blocketAd, t time.Time, test *testing.T) {
 	if add1.Created != t {
 		test.Errorf("Expected %v. Got %v\n", t, add1.Created)
 	}
 }
 
-func AssertPrice(add1 BlocketAd, expectedPrice float64, t *testing.T) {
+func AssertPrice(add1 blocketAd, expectedPrice float64, t *testing.T) {
 	if *add1.Price != expectedPrice {
 		t.Errorf("Expected %v. Got %v\n", expectedPrice, *add1.Price)
 	}
 }
 
-func AssertPriceIsNull(add1 BlocketAd, t *testing.T) {
+func AssertPriceIsNull(add1 blocketAd, t *testing.T) {
 	if add1.Price != nil {
 		t.Errorf("Expected price to be null. Got %v\n", *add1.Price)
 	}
 }
 
-func get(t *testing.T, query string) []BlocketAd {
+func get(t *testing.T, query string) []blocketAd {
 	request, _ := http.NewRequest("GET", query, nil)
 	response := executeRequest(request)
 	checkResponsecode(t, http.StatusOK, response.Code)
 	reqBody, _ := ioutil.ReadAll(response.Body)
 
-	var ads []BlocketAd
+	var ads []blocketAd
 	json.Unmarshal(reqBody, &ads)
 	return ads
 }
 
-func getAdverts(t *testing.T) []BlocketAd {
+func getAdverts(t *testing.T) []blocketAd {
 	return get(t, "/ads")
 }
 
@@ -300,18 +300,18 @@ func addTestData() {
 	price2 := 134.13
 	price3 := 900.5
 
-	a.DB.Create(&BlocketAd{ID: "1", Subject: "Add1", Body: "This is what Iam selling", Price: &price1, Email: "myEmal@hotmail.com", Created: time.Date(2021, time.August, 0, 0, 0, 0, 0, time.Local)})
-	a.DB.Create(&BlocketAd{ID: "2", Subject: "Add2", Body: "This is another ad", Email: "test@msn.com", Price: &price2, Created: time.Date(2021, time.January, 0, 0, 0, 0, 0, time.Local)})
-	a.DB.Create(&BlocketAd{ID: "3", Subject: "Add3", Body: "This is another ad", Email: "anotherEmail@spray.com", Price: &price3, Created: time.Date(2020, time.April, 0, 0, 0, 0, 0, time.Local)})
-	a.DB.Create(&BlocketAd{ID: "4", Subject: "Add4", Body: "This is another ad", Email: "emalj@Hoppla.com", Created: time.Date(1988, time.December, 0, 0, 0, 0, 0, time.Local)})
+	a.DB.Create(&blocketAd{ID: "1", Subject: "Add1", Body: "This is what Iam selling", Price: &price1, Email: "myEmal@hotmail.com", Created: time.Date(2021, time.August, 0, 0, 0, 0, 0, time.Local)})
+	a.DB.Create(&blocketAd{ID: "2", Subject: "Add2", Body: "This is another ad", Email: "test@msn.com", Price: &price2, Created: time.Date(2021, time.January, 0, 0, 0, 0, 0, time.Local)})
+	a.DB.Create(&blocketAd{ID: "3", Subject: "Add3", Body: "This is another ad", Email: "anotherEmail@spray.com", Price: &price3, Created: time.Date(2020, time.April, 0, 0, 0, 0, 0, time.Local)})
+	a.DB.Create(&blocketAd{ID: "4", Subject: "Add4", Body: "This is another ad", Email: "emalj@Hoppla.com", Created: time.Date(1988, time.December, 0, 0, 0, 0, 0, time.Local)})
 }
 
-func addASingleTestData(price *float64) BlocketAd {
-	x := &BlocketAd{ID: "1", Subject: "Add1", Body: "This is what Iam selling", Price: price, Email: "myEmal@hotmail.com", Created: time.Now()}
+func addASingleTestData(price *float64) blocketAd {
+	x := &blocketAd{ID: "1", Subject: "Add1", Body: "This is what Iam selling", Price: price, Email: "myEmal@hotmail.com", Created: time.Now()}
 	a.DB.Create(x)
 	return *x
 }
 
 func clearTable() {
-	a.DB.Where("1 = 1").Delete(&BlocketAd{})
+	a.DB.Where("1 = 1").Delete(&blocketAd{})
 }

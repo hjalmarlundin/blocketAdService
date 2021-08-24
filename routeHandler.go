@@ -23,8 +23,8 @@ func handleGetRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	json.NewEncoder(w).Encode(ads)
 }
 
-func searchAndQuery(query string, db *gorm.DB) []BlocketAd {
-	var ads []BlocketAd
+func searchAndQuery(query string, db *gorm.DB) []blocketAd {
+	var ads []blocketAd
 
 	switch query {
 	case "price.desc":
@@ -52,7 +52,7 @@ func handleDeleteRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	id := vars["id"]
 	fmt.Printf("Received DELETE for ID: %v \n", id)
 
-	var ad BlocketAd
+	var ad blocketAd
 	result := db.Where("Id = ?", id).Find(&ad)
 
 	if result.Error == nil && result.RowsAffected != 0 {
@@ -66,7 +66,7 @@ func handleDeleteRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 
 func handlePostRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	reqBody, _ := ioutil.ReadAll(r.Body)
-	var ad BlocketAd
+	var ad blocketAd
 	err := json.Unmarshal(reqBody, &ad)
 
 	if err != nil {
@@ -76,7 +76,7 @@ func handlePostRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 
 	fmt.Printf("Received POST: \n Subject: %v. Body: %v, Email: %v, Price: %v", ad.Subject, ad.Body, ad.Email, ad.Price)
 
-	createdResource := &BlocketAd{Subject: ad.Subject, Body: ad.Body, Email: ad.Email, Price: ad.Price, Created: time.Now(), ID: uuid.NewString()}
+	createdResource := &blocketAd{Subject: ad.Subject, Body: ad.Body, Email: ad.Email, Price: ad.Price, Created: time.Now(), ID: uuid.NewString()}
 	db.Create(createdResource)
 	json.NewEncoder(w).Encode(createdResource)
 }
