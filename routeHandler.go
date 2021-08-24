@@ -19,7 +19,6 @@ func handleGetRequest(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	query := r.FormValue("sort_by")
 
 	ads := searchAndQuery(query, db)
-	fmt.Println("{}", ads)
 	json.NewEncoder(w).Encode(ads)
 }
 
